@@ -30,6 +30,21 @@ app.get(("/questao1"),async (req,res)=>{
     }
 }
 );
+app.get(("/questao2"),async (req,res)=>{
+
+    try {
+      const { rows } = await connectionDB.query(`SELECT "userId" AS id, 
+      count("userId") as experiences FROM educations GROUP BY "userId" 
+      ORDER BY experiences DESC
+      `)
+      console.table(rows)
+      res.sendStatus(rows)
+    }
+     catch (err) {
+      res.status(500).send(err.message);
+    }
+}
+);
 
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Server running in port: ${port}`));
