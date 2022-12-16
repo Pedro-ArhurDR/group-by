@@ -18,7 +18,18 @@ app.get(("/teste"),(req,res)=>
 res.sendStatus(200)
 );
 
+app.get(("/questao1"),async (req,res)=>{
 
+    try {
+      const { rows } = await connectionDB.query('SELECT count(experiences."endDate") FROM experiences;')
+      console.table(rows)
+      res.sendStatus(rows)
+    }
+     catch (err) {
+      res.status(500).send(err.message);
+    }
+}
+);
 
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Server running in port: ${port}`));
